@@ -14,37 +14,37 @@
 
 package org.skyscreamer.jsonassert;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.skyscreamer.jsonassert.JSONCompare.compareJSON;
 import static org.skyscreamer.jsonassert.JSONCompareMode.LENIENT;
 import static org.skyscreamer.jsonassert.JSONCompareMode.NON_EXTENSIBLE;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.json.JSONException;
-import org.junit.Test;
-import org.junit.internal.matchers.TypeSafeMatcher;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@code JSONCompare}.
  */
-public class JSONCompareTest {
+class JSONCompareTest {
     @Test
-    public void succeedsWithEmptyArrays() throws JSONException {
+    void succeedsWithEmptyArrays() throws JSONException {
         assertTrue(compareJSON("[]", "[]", LENIENT).passed());
     }
 
     @Test
-    public void reportsArraysOfUnequalLength() throws JSONException {
+    void reportsArraysOfUnequalLength() throws JSONException {
         JSONCompareResult result = compareJSON("[4]", "[]", LENIENT);
         assertThat(result, failsWithMessage(equalTo("[]: Expected 1 values but got 0")));
     }
 
     @Test
-    public void reportsArrayMissingExpectedElement() throws JSONException {
+    void reportsArrayMissingExpectedElement() throws JSONException {
         JSONCompareResult result = compareJSON("[4]", "[7]", LENIENT);
         assertThat(result, failsWithMessage(equalTo("[]\nExpected: 4\n     but none found\n ; []\nUnexpected: 7\n")));
         assertEquals(result.getFieldMissing().size(), 1);
